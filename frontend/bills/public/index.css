@@ -1,0 +1,92 @@
+body{
+    background-color: black;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    font-weight: light;
+    line-height: 1em;
+}
+
+.white-in-black{
+    background-color: black;
+    color: white;
+}
+
+.titles{
+    color: cyan;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 50px;
+    text-align: center;
+    line-height: 1.5em;
+}
+
+.errors{
+    color: red;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 50px;
+    text-align: center;
+    font-weight: 900;
+    letter-spacing: 1px;
+    line-height: 1.5em;
+}
+
+.warnings{
+    color: orange;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 39px;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 1px;
+    line-height: 1.5em;
+}
+
+.corrects{
+    color: cyan;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    font-weight: 50px;
+    text-align: center;
+    font-weight: 900;
+    letter-spacing: 1px;
+    line-height: 1.5em;
+}
+
+.bigger:hover{
+    transform: scale(1.1, 1.1);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(128, 128, 128, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay:hover{
+    cursor: pointer;
+}
+
+.pop{
+    width: 50%;
+    background: black;
+    color: red;
+    border: 5px solid white;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.pop:hover{
+    cursor: not-allowed;
+}
+
+.hidden-rest{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
