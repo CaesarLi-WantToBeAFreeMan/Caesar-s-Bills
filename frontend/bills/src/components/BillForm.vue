@@ -36,15 +36,9 @@
             BillEmpty,
             CreateSuccess
         },
-        props:{
-            billData:{
-                type: Object,
-                default: () => ({item: "", price: null, date: ""})
-            }
-        },
         data(){
             return{
-                bill: this.billData
+                bill: {item: "", price: null, date: ""}
             };
         },
         methods:{

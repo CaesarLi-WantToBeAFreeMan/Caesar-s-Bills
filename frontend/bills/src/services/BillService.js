@@ -8,6 +8,24 @@ export default{
     getBillById(id){
         return axios.get(`${API_URL}/${id}`);
     },
+
+    getBillsByDate(date){
+        return axios.get(`${API_URL}/date`,
+                        {
+                            params: {
+                                date: date
+                            }
+                        });
+    },
+
+    countByDate(date){
+        return axios.get(`${API_URL}/countByDate`,
+                        {
+                            params: {
+                                date: date
+                            }
+                        });
+    },
     
     createBill(bill){
         return axios.post(API_URL, bill);

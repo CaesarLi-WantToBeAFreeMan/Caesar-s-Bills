@@ -11,11 +11,6 @@ import BillListView from "../views/BillListView.vue";
         path: "/create",
         name: "billCreate",
         component: () => import("../views/BillCreateView.vue")
-    },
-    {
-        path: "/edit:id",
-        name: "billEdit",
-        component: () => import("../views/BillEditView.vue")
     }
 ];
 

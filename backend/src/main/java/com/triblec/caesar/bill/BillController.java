@@ -2,6 +2,8 @@ package com.triblec.caesar.bill;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -18,6 +20,19 @@ public class BillController{
     @GetMapping("/{id}")
     public Bill getBillById(@PathVariable Long id){
         return billService.getBillById(id);
+    }
+
+    @GetMapping("/date")
+    public List <Bill> getBillsByDate(@RequestParam("date") String dateString){
+        System.out.println("dateString:\t" + dateString);
+        LocalDate date = LocalDate.parse(dateString);
+        return billService.getBillsByDate(date);
+    }
+
+    @GetMapping("/countByDate")
+    public long getBillCountByDate(@RequestParam("date") String dateString){
+        LocalDate date = LocalDate.parse(dateString);
+        return billService.getBillCountByDate(date);
     }
 
     @PostMapping

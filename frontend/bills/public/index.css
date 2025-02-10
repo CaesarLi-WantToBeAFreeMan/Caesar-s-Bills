@@ -90,3 +90,21 @@ body{
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.buttons{
+    background-color: black;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    opacity: 75%;
+    box-shadow: 1px 2px white, -1px -2px white;
+    border-radius: 30px;
+    padding: 5px 10px;
+}
+
+.buttons:hover{
+    opacity: 100%;
+    transition: all 0.25s ease-in;
+    cursor: pointer;
+}

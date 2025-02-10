@@ -10,10 +10,10 @@
     import BillService from "../services/BillService";
 
     export default{
-        components:{
+        components: {
             BillForm
         },
-        methods:{
+        methods: {
             createBill(bill){
                 BillService.createBill(bill);
             }

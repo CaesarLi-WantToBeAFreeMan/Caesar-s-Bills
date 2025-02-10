@@ -2,6 +2,7 @@ package com.triblec.caesar.bill;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -15,6 +16,14 @@ public class BillService{
 
     public Bill getBillById(Long id){
         return billRepository.findById(id).orElse(null);
+    }
+
+    public List <Bill> getBillsByDate(LocalDate date){
+        return billRepository.findByDate(date);
+    }
+
+    public long getBillCountByDate(LocalDate date){
+        return billRepository.countByDate(date);
     }
 
     public Bill createBill(Bill bill){
