@@ -53,6 +53,9 @@
             check(){
                 return this.bill.item === "" || this.bill.price === null || this.bill.date === "";
             }
+        },
+        created(){
+            this.bill.date = new Date().toISOString().split("T")[0];
         }
     };
 </script>

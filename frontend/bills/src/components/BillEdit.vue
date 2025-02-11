@@ -78,9 +78,9 @@
     }
 
     fieldset{
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: 1fr;
+        display: flex;
+        flex-direction: column;
+        gap: 10px 30px;
         padding: 5px 10px;
         column-gap: 10px;
         justify-content: space-between;
@@ -90,14 +90,24 @@
     }
 
     .labels-inputs{
-        color: white;
+        display: flex;
+        column-gap: 30px;
+        justify-content: center;
+        justify-items: center;
+        align-content: center;
+        align-items: center;
         font-family: Arial, Helvetica, sans-serif;
-        font-size: 15px;
         font-weight: light;
-        margin: 10px auto;
+    }
+
+    label{
+        font-size: 18px;
+        color: cyan;
+        text-align: center;
     }
 
     input{
+        font-size: 15px;
         background-color: black;
         color: white;
         caret-color: white;
@@ -105,6 +115,7 @@
         border: 1px solid cyan;
         padding: 5px 10px;
         border-radius: 30px;
+        width: 30vw;
     }
 
     input:placeholder{

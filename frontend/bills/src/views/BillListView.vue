@@ -1,5 +1,5 @@
 <template>
-    <br>
+    <h1 class = "titles">Bills List</h1>
     <fieldset>
         <legend id = "title" class = "titles">Bills</legend>
         <br>
@@ -31,71 +31,28 @@
         },
         methods:{
             getDateString(date){
-                let result = "";
-                switch(date.getMonth()){
-                    case 0:
-                        result += "January";
-                        break;
-                    case 1:
-                        result += "February";
-                        break;
-                    case 2:
-                        result += "March";
-                        break;
-                    case 3:
-                        result += "April";
-                        break;
-                    case 4:
-                        result += "May";
-                        break;
-                    case 5:
-                        result += "June";
-                        break;
-                    case 6:
-                        result += "July";
-                        break;
-                    case 7:
-                        result += "August";
-                        break;
-                    case 8:
-                        result += "September";
-                        break;
-                    case 9:
-                        result += "October";
-                        break;
-                    case 10:
-                        result += "November";
-                        break;
-                    case 11:
-                        result += "December";
-                        break;
-                    
-                }
-                result += " " + date.getDate() + ", " + date.getFullYear();
-                return result;
-            },
-            getDate(date){
-                let result = date.getFullYear() + "-"
-                            + (date.getMonth() + 1).toString().padStart(2, "0") + "-"
-                            + date.getDate().toString().padStart(2, "0");
-                return result;
+                let monthNames = [
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                ];
+                return `${monthNames [date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
             },
             switchYesterday(){
                 this.dateObject.setDate(this.dateObject.getDate() - 1);
-                this.date = this.getDate(this.dateObject);
+                this.date = this.dateObject.toISOString().split("T")[0];
                 this.dateString = this.getDateString(this.dateObject);
                 this.$refs.billList.refresh(this.date);
             },
             switchTomorrow(){
                 this.dateObject.setDate(this.dateObject.getDate() + 1);
-                this.date = this.getDate(this.dateObject);
+                this.date = this.dateObject.toISOString().split("T")[0];
                 this.dateString = this.getDateString(this.dateObject);
                 this.$refs.billList.refresh(this.date);
             }
         },
         created(){
             this.dateObject = new Date();
-            this.date = this.getDate(this.dateObject);
+            this.date = this.dateObject.toISOString().split("T")[0];
             this.dateString = this.getDateString(this.dateObject);
         }
     };

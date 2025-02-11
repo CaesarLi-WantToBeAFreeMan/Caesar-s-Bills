@@ -9,7 +9,7 @@
         </thead>
         <tbody v-for = "bill in bills" :key = "bill.id">
             <tr>
-                <td class = "hidden-rest" id = "item-container">
+                <td class = "hidden-rest" id = "item">
                     <div id = "item-text-container">
                         {{bill.item}}
                     </div>
@@ -21,8 +21,8 @@
                                 title = "delete the record">delete</button>
                     </div>
                 </td>
-                <td class = "hidden-rest">{{formatCurrency(bill.price)}}</td>
-                <td class = "hidden-rest">{{bill.date}}</td>
+                <td class = "hidden-rest" id = "price">{{formatCurrency(bill.price)}}</td>
+                <td class = "hidden-rest" id = "date">{{bill.date}}</td>
             </tr>
         </tbody>
         <tfoot>
@@ -34,12 +34,12 @@
     </table>
     <br>
     <div id = "page-changer-container">
-        <button id = "prev" @click = "pageChange(-1)" :disabled = "count <= 1"
-                :class = "count <= 1 ? 'buttons-disabled' : 'buttons'" title = "watch the previous 10 records">
+        <button id = "prev" @click = "pageChange(-1)" :disabled = "page <= 1"
+                :class = "page <= 1 ? 'buttons-disabled' : 'buttons'" title = "watch the previous 10 records">
             previous</button>
         <p><span class = "pages">{{page}}</span> / <span class = "pages">{{count}}</span></p>
-        <button id = "next" @click = "pageChange(1)" :disabled = "count >= page"
-                :class = "count >= page ? 'buttons-disabled' : 'buttons'" title = "watch the next 10 records">
+        <button id = "next" @click = "pageChange(1)" :disabled = "page >= count"
+                :class = "page >= count ? 'buttons-disabled' : 'buttons'" title = "watch the next 10 records">
             next</button>
     </div>
     <DeleteDoubleCheck ref = "deleteDoubleCheck" @confirm = "deleteBill"/>
@@ -79,20 +79,29 @@
             editBill(bill){
                 delete this.bill.id;
                 BillService.updateBill(this.selectedId, bill)
-                            .then(() => this.fetchBills());
+                            .then(() => {
+                                this.fetchBills(this.date)
+                                this.fetchAllBills(this.date);
+                            });
             },
             deleteBill(){
                 BillService.deleteBill(this.selectedId)
                             .then(() => {
-                                this.calculateCost();
-                                this.fetchBills();
+                                this.fetchBills(this.date);
+                                this.fetchAllBills(this.date);
                             });
             },
-            fetchBills(date){
-                BillService.getBillsByDate(date)
+            fetchAllBills(date){
+                BillService.getBills(date)
                             .then(response => {
-                                this.bills = response.data;
-                                this.calculateCost();
+                                this.recordNumber = response.data.length;
+                                this.getTotalCost();
+                            })
+            },
+            fetchBills(date){
+                BillService.getBillsByDate(date, this.page, 10)
+                            .then(response => {
+                                this.bills = response.data.content;
                                 this.countPage();
                             });
             },
@@ -117,7 +126,8 @@
             },
             showEditBill(id){
                 this.toggleDropdown(id);
-                this.bill = this.bills.find(bill => bill.id === id);
+                BillService.getBillById(id)
+                            .then(response => this.bill = response.data);
                 this.$refs.billEdit.show();
                 this.selectedId = id;
             },
@@ -133,11 +143,9 @@
                 this.dropdownVisibility = !this.dropdownVisibility;
                 this.selectedId = id;
             },
-            calculateCost(){
-                this.cost = 0;
-                for(let i = 0; i < this.bills.length; i++)
-                    this.cost += this.bills [i].price * 100;
-                this.cost /= 100;
+            getTotalCost(){
+                BillService.getTotalCostByDate(this.date)
+                            .then(response => this.cost = response.data);
             },
             refresh(date){
                 this.fetchBills(date);
@@ -147,10 +155,13 @@
         },
         watch:{
             bills(){
-                this.calculateCost();
+                this.getTotalCost();
             },
             recordNumber(){
                 this.countPage();
+            },
+            page(){
+                this.fetchBills(this.date);
             }
         },
         created(){
@@ -159,7 +170,7 @@
     };
 </script>
 
-<style>
+<style scoped>
     table{
         width: 100%;
         border-collapse: separate;
@@ -174,7 +185,7 @@
         border: 1px solid white;
     }
 
-    #item-container{
+    #item{
         display: flex;
         justify-content: space-between;
         justify-items: left;
@@ -184,6 +195,11 @@
         padding: 5px 10px;
     }
 
+    #price,
+    #date{
+        width: 20%;
+    }
+
     #item-text-container{
         text-align: center;
         width: 100%;
@@ -191,7 +207,7 @@
 
     .dropdowns{
         position: absolute;
-        left: 50%;
+        left: 60%;
         background-color: rgba(128, 128, 128, 0.5);
         box-shadow: 2px 3px cyan, -2px -3px cyan;
         border: 1px solid white;
